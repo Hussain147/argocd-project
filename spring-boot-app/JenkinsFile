@@ -10,12 +10,8 @@ pipeline {
     environment {
         AWS_ACCOUNT_ID="432624721970"
         AWS_DEFAULT_REGION="us-east-1"
-       // IMAGE_REPO_NAME="jala-ecr-repo"
         BUILD_NUMBER = "${currentBuild.number}"
         dockerImageVersion = "v${BUILD_NUMBER}"
-        
-        
-        
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
     }
     tools {
@@ -168,7 +164,7 @@ pipeline {
                     sh "ls -ltr"
                     def ecrRepository = params.ECR_REPOSITORY
             // Build and tag the Docker image
-                    sh "docker build -t $ecrRepository:$dockerImageVersion . -f /var/lib/jenkins/workspace/techie-cicd/spring-boot-app/Dockerfile"
+                    sh "docker build -t $ecrRepository:$dockerImageVersion . -f /var/lib/jenkins/workspace/${env.JOB_NAME}/spring-boot-app/Dockerfile"
                 }
             }
         }
